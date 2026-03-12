@@ -1,10 +1,13 @@
 import type { Metadata } from 'next';
+import { Geist } from 'next/font/google';
 import { Activity, Bell, PanelLeft, Radar } from 'lucide-react';
 import { Navigation } from './components/Navigation';
 import { Badge } from './components/ui/badge';
 import { Button } from './components/ui/button';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from './components/ui/sidebar';
 import '../styles/index.css';
+
+const geist = Geist({ subsets: ['latin'], variable: '--font-geist' });
 
 export const metadata: Metadata = {
   title: 'RTGS Coach Dashboard',
@@ -17,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${geist.variable}`}>
       <body className="min-h-screen bg-background text-foreground antialiased">
         <SidebarProvider defaultOpen>
           <Navigation />
