@@ -1,213 +1,126 @@
 'use client';
 
-import { XGChart } from '../components/XGChart';
+import { Target, TrendingUp, Trophy, Users } from 'lucide-react';
 import { KPICard } from '../components/KPICard';
-import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
+import { PageHeader } from '../components/PageHeader';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Progress } from '../components/ui/progress';
-import { Trophy, TrendingUp, Users, Target } from 'lucide-react';
+import { XGChart } from '../components/XGChart';
 
 export default function MatchReports() {
   return (
-    <div className="max-w-[1600px] mx-auto">
-      {/* Page Header */}
-      <div className="mb-4">
-        <h1 className="text-2xl lg:text-3xl font-bold">Match Reports</h1>
-        <p className="text-muted-foreground text-sm">Performance analytics and expected goals timeline</p>
-      </div>
+    <div className="mx-auto max-w-[1600px] space-y-6">
+      <PageHeader
+        eyebrow="Review"
+        badge="Post-match digest"
+        title="Match Reports"
+        description="Performance analytics, expected-goals context, and key moments packaged for coaches and analysts."
+      />
 
-      {/* Match Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
-        <div className="h-28">
-          <KPICard 
-            title="Match Score" 
-            value="2-1" 
-            subtitle="U of S leading"
-          />
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 xl:gap-4">
+        <div className="h-32">
+          <KPICard title="Match Score" value="2-1" subtitle="U of S leading" />
         </div>
-        <div className="h-28">
-          <KPICard 
-            title="Total Expected Goals" 
-            value="1.84" 
-            subtitle="vs Calgary 1.32 xG"
-          />
+        <div className="h-32">
+          <KPICard title="Total Expected Goals" value="1.84" subtitle="vs Calgary 1.32 xG" />
         </div>
-        <div className="h-28">
-          <KPICard 
-            title="Win Probability" 
-            value="68%" 
-            subtitle="Based on current metrics"
-          />
+        <div className="h-32">
+          <KPICard title="Win Probability" value="68%" subtitle="Based on current metrics" />
         </div>
-        <div className="h-28">
-          <KPICard 
-            title="Possession" 
-            value="55%" 
-            subtitle="↑ 3% from 1st half"
-          />
+        <div className="h-32">
+          <KPICard title="Possession" value="55%" subtitle="↑ 3% from 1st half" />
         </div>
       </div>
 
-      {/* Expected Goals Chart */}
-      <div className="mb-4 md:mb-6">
-        <div className="h-[350px] md:h-[400px]">
-          <XGChart />
-        </div>
+      <div className="h-[350px] md:h-[400px]">
+        <XGChart />
       </div>
 
-      {/* Match Statistics Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-        {/* Team Performance */}
-        <Card>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
+        <Card className="border-border/70 bg-card/80 shadow-sm">
           <CardHeader className="flex flex-row items-center gap-3">
-            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-              <Trophy className="w-5 h-5 text-primary" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <Trophy className="h-5 w-5" />
             </div>
-            <CardTitle className="text-lg font-bold">Team Performance</CardTitle>
+            <CardTitle className="text-lg font-semibold">Team Performance</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-muted-foreground">Shots on Target</span>
-                <span className="font-semibold">12 / 18</span>
+            {[
+              ['Shots on Target', '12 / 18', 67],
+              ['Pass Completion', '82%', 82],
+              ['Tackles Won', '76%', 76],
+              ['Aerial Duels', '58%', 58],
+              ['Defensive Actions', '34 actions', 89],
+            ].map(([label, value, progress]) => (
+              <div key={label} className="space-y-1.5">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">{label}</span>
+                  <span className="font-semibold">{value}</span>
+                </div>
+                <Progress value={progress as number} className="h-2" />
               </div>
-              <Progress value={67} className="h-2" />
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-muted-foreground">Pass Completion</span>
-                <span className="font-semibold">82%</span>
-              </div>
-              <Progress value={82} className="h-2" />
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-muted-foreground">Tackles Won</span>
-                <span className="font-semibold">76%</span>
-              </div>
-              <Progress value={76} className="h-2" />
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-muted-foreground">Aerial Duels</span>
-                <span className="font-semibold">58%</span>
-              </div>
-              <Progress value={58} className="h-2" />
-            </div>
-
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-muted-foreground">Defensive Actions</span>
-                <span className="font-semibold">34 actions</span>
-              </div>
-              <Progress value={89} className="h-2" />
-            </div>
+            ))}
           </CardContent>
         </Card>
 
-        {/* Key Moments */}
-        <Card>
+        <Card className="border-border/70 bg-card/80 shadow-sm">
           <CardHeader className="flex flex-row items-center gap-3">
-            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-              <Target className="w-5 h-5 text-primary" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <Target className="h-5 w-5" />
             </div>
-            <CardTitle className="text-lg font-bold">Key Moments</CardTitle>
+            <CardTitle className="text-lg font-semibold">Key Moments</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex gap-4">
-              <div className="flex-shrink-0 w-16 text-center">
-                <div className="text-primary font-bold text-lg">18'</div>
-                <div className="text-muted-foreground text-xs">1st Half</div>
-              </div>
-              <div className="flex-1">
-                <div className="bg-primary/10 border border-primary/20 rounded-lg p-3">
-                  <p className="font-semibold text-sm mb-1">⚽ GOAL - Williams</p>
-                  <p className="text-muted-foreground text-xs">Header from corner • xG: 0.42</p>
+            {[
+              { minute: "18'", phase: '1st Half', title: '⚽ GOAL - Williams', note: 'Header from corner • xG: 0.42', tone: 'primary' },
+              { minute: "34'", phase: '1st Half', title: '⚽ GOAL - Calgary', note: 'Counter attack • xG: 0.68', tone: 'destructive' },
+              { minute: "51'", phase: '2nd Half', title: '⚽ GOAL - Martinez', note: 'Long shot from edge of box • xG: 0.18', tone: 'primary' },
+              { minute: "58'", phase: '2nd Half', title: '🟡 Yellow Card - Thompson', note: 'Tactical foul in midfield', tone: 'warning' },
+            ].map((item) => (
+              <div key={`${item.minute}-${item.title}`} className="flex gap-4">
+                <div className="w-16 flex-shrink-0 text-center">
+                  <div className={item.tone === 'warning' ? 'text-lg font-bold text-yellow-500' : item.tone === 'destructive' ? 'text-lg font-bold text-destructive' : 'text-lg font-bold text-primary'}>{item.minute}</div>
+                  <div className="text-xs text-muted-foreground">{item.phase}</div>
+                </div>
+                <div className="flex-1">
+                  <div
+                    className={
+                      item.tone === 'warning'
+                        ? 'rounded-2xl border border-yellow-500/20 bg-yellow-500/6 p-3'
+                        : item.tone === 'destructive'
+                          ? 'rounded-2xl border border-destructive/20 bg-destructive/6 p-3'
+                          : 'rounded-2xl border border-primary/20 bg-primary/6 p-3'
+                    }
+                  >
+                    <p className="text-sm font-semibold">{item.title}</p>
+                    <p className="text-xs text-muted-foreground">{item.note}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0 w-16 text-center">
-                <div className="text-primary font-bold text-lg">34'</div>
-                <div className="text-muted-foreground text-xs">1st Half</div>
-              </div>
-              <div className="flex-1">
-                <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3">
-                  <p className="font-semibold text-sm mb-1">⚽ GOAL - Calgary</p>
-                  <p className="text-muted-foreground text-xs">Counter attack • xG: 0.68</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0 w-16 text-center">
-                <div className="text-primary font-bold text-lg">51'</div>
-                <div className="text-muted-foreground text-xs">2nd Half</div>
-              </div>
-              <div className="flex-1">
-                <div className="bg-primary/10 border border-primary/20 rounded-lg p-3">
-                  <p className="font-semibold text-sm mb-1">⚽ GOAL - Martinez</p>
-                  <p className="text-muted-foreground text-xs">Long shot from edge of box • xG: 0.18</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0 w-16 text-center">
-                <div className="text-yellow-500 font-bold text-lg">58'</div>
-                <div className="text-muted-foreground text-xs">2nd Half</div>
-              </div>
-              <div className="flex-1">
-                <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3">
-                  <p className="font-semibold text-sm mb-1">🟡 Yellow Card - Thompson</p>
-                  <p className="text-muted-foreground text-xs">Tactical foul in midfield</p>
-                </div>
-              </div>
-            </div>
+            ))}
           </CardContent>
         </Card>
       </div>
 
-      {/* Additional Match Stats */}
-      <div className="mt-4 md:mt-6 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <TrendingUp className="w-4 h-4 text-primary" />
-            <p className="text-muted-foreground text-xs">Corners</p>
-          </div>
-          <p className="font-bold text-2xl">8</p>
-          <p className="text-muted-foreground text-xs">vs Calgary 4</p>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Target className="w-4 h-4 text-primary" />
-            <p className="text-muted-foreground text-xs">Offsides</p>
-          </div>
-          <p className="font-bold text-2xl">3</p>
-          <p className="text-muted-foreground text-xs">vs Calgary 5</p>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Users className="w-4 h-4 text-primary" />
-            <p className="text-muted-foreground text-xs">Fouls</p>
-          </div>
-          <p className="font-bold text-2xl">11</p>
-          <p className="text-muted-foreground text-xs">vs Calgary 14</p>
-        </Card>
-
-        <Card className="p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Trophy className="w-4 h-4 text-primary" />
-            <p className="text-muted-foreground text-xs">Saves</p>
-          </div>
-          <p className="font-bold text-2xl">6</p>
-          <p className="text-muted-foreground text-xs">Goalkeeper</p>
-        </Card>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+        {[
+          { icon: TrendingUp, label: 'Corners', value: '8', note: 'vs Calgary 4' },
+          { icon: Target, label: 'Offsides', value: '3', note: 'vs Calgary 5' },
+          { icon: Users, label: 'Fouls', value: '11', note: 'vs Calgary 14' },
+          { icon: Trophy, label: 'Saves', value: '6', note: 'Goalkeeper total' },
+        ].map((item) => {
+          const Icon = item.icon;
+          return (
+            <Card key={item.label} className="border-border/70 bg-card/80 p-4 shadow-sm">
+              <div className="mb-3 flex items-center gap-2 text-muted-foreground">
+                <Icon className="h-4 w-4 text-primary" />
+                <p className="text-xs uppercase tracking-[0.22em]">{item.label}</p>
+              </div>
+              <p className="text-2xl font-semibold">{item.value}</p>
+              <p className="text-xs text-muted-foreground">{item.note}</p>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );
