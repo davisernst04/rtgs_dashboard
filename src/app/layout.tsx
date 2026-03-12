@@ -2,6 +2,10 @@ import type { Metadata } from 'next';
 import { Navigation } from './components/Navigation';
 import { SidebarProvider, SidebarInset } from './components/ui/sidebar';
 import '../styles/index.css';
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: 'Soccer Dashboard GUI',
@@ -14,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className="min-h-screen bg-background font-serif antialiased">
         <SidebarProvider>
           <Navigation />
