@@ -1,96 +1,103 @@
 'use client';
 
-import { AlertCircle, Target, Timer, TrendingUp, Zap } from 'lucide-react';
-import { KPICard } from '../components/KPICard';
-import { PageHeader } from '../components/PageHeader';
-import { PlayerList } from '../components/PlayerList';
-import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert';
+import { MatchControl } from '../components/MatchControl';
+import { PlayerPerformanceMatrix } from '../components/PlayerPerformanceMatrix';
+import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Alert, AlertTitle, AlertDescription } from '../components/ui/alert';
+import { AlertCircle, UserPlus, Timer, Zap } from 'lucide-react';
+import { Button } from '../components/ui/button';
 
 export default function PlayerStats() {
   return (
-    <div className="mx-auto max-w-[1600px] space-y-6">
-      <PageHeader
-        eyebrow="Squad"
-        badge="Live conditioning view"
-        title="Player Statistics"
-        description="Individual performance metrics, fatigue indicators, and contribution summaries for rapid in-game decision making."
-      />
+    <div className="mx-auto max-w-[1700px] space-y-6 pb-12">
+      <MatchControl />
 
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 xl:gap-4">
-        <div className="h-32">
-          <KPICard title="Total Distance Run" value="98.4km" subtitle="Team aggregate" />
-        </div>
-        <div className="h-32">
-          <KPICard title="Avg Sprint Speed" value="28.7km/h" subtitle="Top speed recorded" />
-        </div>
-        <div className="h-32">
-          <KPICard title="Pass Accuracy" value="82%" subtitle="↑ 5% from last match" />
-        </div>
-        <div className="h-32">
-          <KPICard title="Shots on Target" value="12/18" subtitle="67% conversion" />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6">
-        <div className="h-[620px] lg:col-span-2 md:h-[700px]">
-          <PlayerList />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Main Performance Monitoring Area */}
+        <div className="lg:col-span-8">
+          <PlayerPerformanceMatrix />
         </div>
 
-        <div className="space-y-4">
-          <Card className="border-border/70 bg-card/80 shadow-sm">
-            <CardHeader className="flex flex-row items-center justify-between gap-3">
-              <CardTitle className="text-lg font-semibold">Top performers</CardTitle>
-              <Badge variant="outline" className="border-primary/25 bg-primary/10 text-primary">Match impact</Badge>
+        {/* Actionable Bench & Sub Management */}
+        <div className="lg:col-span-4 space-y-6">
+          {/* Critical Fatigue Alerts */}
+          <Card className="border-zinc-800 bg-zinc-900/30 shadow-lg">
+            <CardHeader className="p-6 pb-2">
+              <div className="flex items-center justify-between">
+                 <div className="flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5 text-zinc-100" />
+                    <CardTitle className="text-lg font-black uppercase tracking-tight text-white">Sub Alerts</CardTitle>
+                 </div>
+                 <Badge className="bg-zinc-200 text-zinc-900 border-none text-[9px] font-black uppercase hover:bg-zinc-300">Critical</Badge>
+              </div>
             </CardHeader>
-            <CardContent className="space-y-4">
-              {[
-                { icon: TrendingUp, label: 'Most Sprints', value: 'Johnson • 47 sprints' },
-                { icon: Zap, label: 'Highest Work Rate', value: 'Martinez • 12.3km' },
-                { icon: Target, label: 'Best Pass Accuracy', value: 'Chen • 94%' },
-                { icon: Timer, label: 'Time in Attack Zone', value: 'Williams • 18:23' },
-              ].map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div key={item.label} className="flex items-start gap-3 rounded-2xl border border-border/70 bg-muted/20 p-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                      <Icon className="h-5 w-5" />
+            <CardContent className="p-6 pt-2 space-y-4">
+               <Alert className="border-zinc-700 bg-zinc-900/50 rounded-2xl">
+                 <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                       <span className="font-black text-sm uppercase text-white">#6 K. Walsh</span>
+                       <span className="text-[10px] font-black text-zinc-300">85% FATIGUE</span>
                     </div>
-                    <div className="flex-1">
-                      <p className="font-semibold text-sm">{item.label}</p>
-                      <p className="text-xs text-muted-foreground">{item.value}</p>
+                    <p className="text-xs text-zinc-400 leading-relaxed font-bold">
+                      Movement speed dropped by 12% in last 10 mins. High risk of muscle strain.
+                    </p>
+                    <Button variant="outline" className="w-full mt-2 border-zinc-700 text-zinc-100 hover:bg-zinc-800 hover:text-white rounded-xl h-10 text-[10px] font-black uppercase tracking-widest">
+                      Prepare #14 Stanway
+                    </Button>
+                 </div>
+               </Alert>
+            </CardContent>
+          </Card>
+
+          {/* Available Bench */}
+          <Card className="border-zinc-800 bg-zinc-900/30 shadow-xl">
+            <CardHeader className="p-6 pb-2 border-b border-zinc-800 flex flex-row items-center justify-between">
+              <div className="flex items-center gap-2">
+                <UserPlus className="w-5 h-5 text-zinc-100" />
+                <CardTitle className="text-lg font-black uppercase tracking-tight text-white">Ready Bench</CardTitle>
+              </div>
+              <Badge variant="outline" className="border-zinc-700 text-zinc-400 text-[9px] font-black uppercase">Warm Up Active</Badge>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="divide-y divide-zinc-800">
+                {[
+                  { id: 14, name: 'G. Stanway', pos: 'MF', warm: 'High', energy: 100 },
+                  { id: 19, name: 'B. Mead', pos: 'FW', warm: 'Mid', energy: 100 },
+                  { id: 3, name: 'N. Charles', pos: 'DF', warm: 'Ready', energy: 100 },
+                ].map((bench) => (
+                  <div key={bench.id} className="p-4 flex items-center justify-between hover:bg-zinc-800/50 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center font-black text-zinc-300 text-xs">{bench.id}</div>
+                      <div>
+                        <div className="text-sm font-black text-white uppercase">{bench.name}</div>
+                        <div className="text-[9px] font-bold text-zinc-500 uppercase">{bench.pos} • Energy {bench.energy}%</div>
+                      </div>
                     </div>
+                    <Badge className="bg-zinc-800 text-zinc-300 border-zinc-700 text-[9px] font-black uppercase hover:bg-zinc-700">{bench.warm}</Badge>
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </CardContent>
           </Card>
 
-          <Card className="border-border/70 bg-card/80 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">Substitution alerts</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Alert className="border-yellow-500/40 bg-yellow-500/8 text-yellow-50">
-                <AlertCircle className="h-4 w-4 text-yellow-500" />
-                <AlertTitle className="text-yellow-500">High fatigue</AlertTitle>
-                <AlertDescription>
-                  <p className="font-medium text-foreground">#7 Martinez</p>
-                  <p className="text-xs text-muted-foreground">Consider substitution near 70&apos;</p>
-                </AlertDescription>
-              </Alert>
-
-              <Alert variant="destructive" className="bg-destructive/8">
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>Yellow card risk</AlertTitle>
-                <AlertDescription>
-                  <p className="font-medium text-foreground">#5 Thompson</p>
-                  <p className="text-xs text-muted-foreground">Three fouls committed in central midfield duels</p>
-                </AlertDescription>
-              </Alert>
-            </CardContent>
-          </Card>
+          {/* Squad Metrics Aggregator */}
+          <div className="grid grid-cols-2 gap-4">
+             <div className="p-4 rounded-3xl bg-zinc-900/30 border border-zinc-800">
+                <div className="flex items-center gap-2 mb-2">
+                   <Zap className="w-3 h-3 text-zinc-400" />
+                   <span className="text-[9px] font-black uppercase text-zinc-500 tracking-tighter">Squad Energy</span>
+                </div>
+                <div className="text-2xl font-black text-white">74%</div>
+             </div>
+             <div className="p-4 rounded-3xl bg-zinc-900/30 border border-zinc-800">
+                <div className="flex items-center gap-2 mb-2">
+                   <Timer className="w-3 h-3 text-zinc-400" />
+                   <span className="text-[9px] font-black uppercase text-zinc-500 tracking-tighter">Avg Load</span>
+                </div>
+                <div className="text-2xl font-black text-white">12.1 <span className="text-xs text-zinc-500">km</span></div>
+             </div>
+          </div>
         </div>
       </div>
     </div>

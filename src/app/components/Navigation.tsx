@@ -5,115 +5,75 @@ import { usePathname } from 'next/navigation';
 import {
   Activity,
   BarChart3,
-  ChevronRight,
   FileText,
   ShieldCheck,
   TimerReset,
   Users,
+  LayoutGrid,
 } from 'lucide-react';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarRail,
-  SidebarSeparator,
-} from './ui/sidebar';
 
 const navItems = [
-  { path: '/', label: 'Live Dashboard', icon: Activity, caption: 'Live match KPIs' },
-  { path: '/players', label: 'Player Stats', icon: Users, caption: 'Individual metrics' },
-  { path: '/tactical', label: 'Tactical View', icon: BarChart3, caption: 'Shape and coverage' },
-  { path: '/reports', label: 'Match Reports', icon: FileText, caption: 'Post-match summary' },
+  { path: '/', label: 'Overview', icon: Activity },
+  { path: '/players', label: 'Squad', icon: Users },
+  { path: '/stats', label: 'Stats', icon: BarChart3 },
 ];
 
 export function Navigation() {
   const pathname = usePathname();
-
   const isActive = (path: string) => (path === '/' ? pathname === '/' : pathname.startsWith(path));
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-sidebar-border/70">
-      <SidebarHeader className="gap-4 border-b border-sidebar-border/70 px-4 py-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25">
-            <Activity className="h-5 w-5" />
+    <header className="sticky top-0 z-40 w-full border-b border-zinc-800 bg-background/95 backdrop-blur">
+      <div className="flex h-16 items-center px-4 md:px-6 gap-6">
+        <div className="flex items-center gap-3 pr-6 border-r border-zinc-800">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white">
+            <LayoutGrid className="h-4 w-4" />
           </div>
-          <div className="min-w-0 group-data-[collapsible=icon]:hidden">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary/80">RTGS</p>
-            <h2 className="truncate text-lg font-semibold text-sidebar-foreground">Coach Dashboard</h2>
-            <p className="text-xs text-muted-foreground">Real-time soccer intelligence</p>
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500">RTGS v2.4</p>
+            <h2 className="text-sm font-black text-zinc-100 tracking-tight uppercase">Command</h2>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-primary/15 bg-primary/8 p-3 group-data-[collapsible=icon]:hidden">
-          <div className="flex items-center gap-2 text-primary">
-            <ShieldCheck className="h-4 w-4" />
-            <span className="text-xs font-semibold uppercase tracking-[0.22em]">System Healthy</span>
-          </div>
-          <p className="mt-2 text-sm text-sidebar-foreground">Live tracking feed stable. Model inference under 400 ms.</p>
-        </div>
-      </SidebarHeader>
-
-      <SidebarContent className="px-2 py-4">
-        <SidebarMenu>
+        <nav className="flex items-center gap-1 flex-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
 
             return (
-              <SidebarMenuItem key={item.path}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={active}
-                  tooltip={item.label}
-                  size="lg"
-                  className="h-auto rounded-xl px-3 py-3 data-[active=true]:bg-primary data-[active=true]:text-primary-foreground"
-                >
-                  <Link href={item.path} className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-background/40 group-data-[active=true]:border-primary-foreground/15 group-data-[active=true]:bg-primary-foreground/10">
-                      <Icon className="h-4.5 w-4.5" />
-                    </div>
-                    <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
-                      <div className="truncate font-medium">{item.label}</div>
-                      <div className="truncate text-xs text-muted-foreground data-[active=true]:text-primary-foreground/80">
-                        {item.caption}
-                      </div>
-                    </div>
-                    <ChevronRight className="ml-auto h-4 w-4 opacity-50 group-data-[collapsible=icon]:hidden" />
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <Link
+                key={item.path}
+                href={item.path}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold transition-colors ${
+                  active
+                    ? 'bg-emerald-600/10 text-emerald-500'
+                    : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                <span className="hidden md:inline-block uppercase tracking-tight">{item.label}</span>
+              </Link>
             );
           })}
-        </SidebarMenu>
-      </SidebarContent>
+        </nav>
 
-      <SidebarFooter className="px-3 pb-4 pt-0">
-        <SidebarSeparator className="mx-0 mb-3" />
-        <div className="rounded-2xl border border-sidebar-border/70 bg-sidebar-accent/40 p-3 group-data-[collapsible=icon]:hidden">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Live Match</p>
-              <p className="mt-1 text-sm font-medium text-sidebar-foreground">U of S vs Calgary</p>
-            </div>
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
-              <TimerReset className="h-4 w-4" />
-            </div>
+        <div className="flex items-center gap-4 border-l border-zinc-800 pl-6">
+          <div className="hidden md:flex items-center gap-2 text-emerald-500">
+            <ShieldCheck className="h-4 w-4" />
+            <span className="text-[9px] font-black uppercase tracking-widest">Feed Secure</span>
           </div>
-          <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
-            <span>62:34 elapsed</span>
-            <span className="inline-flex items-center gap-1">
-              <span className="h-2 w-2 rounded-full bg-emerald-400" />
-              Live
-            </span>
+          <div className="flex items-center gap-3">
+             <div className="text-right hidden sm:block">
+                <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400">Target Match</p>
+                <p className="text-xs font-black text-zinc-100 uppercase tracking-tight">US vs Calgary</p>
+             </div>
+             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-600/10 border border-emerald-600/20">
+                <TimerReset className="h-3 w-3 text-emerald-500" />
+                <span className="text-[10px] font-black text-emerald-500">62:34'</span>
+             </div>
           </div>
         </div>
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
+      </div>
+    </header>
   );
 }
